@@ -4,10 +4,16 @@
     :Include #.HTMLInput
     :Include #.JSON
 
-    NEWLINE←⎕UCS 13 10
+	⍝ Edit the followint lines to suit your setup.
     ServiceUser←'miserver'		⍝ The user the webServer is running as
     GitHubBranch←'Staging'		⍝ The Git Hub Branch we want to use
-    GitHubRepository←'/MiServer/MiSite/'
+    GitHubRepository←'/MiServer/MiSite/'  ⍝ Directory of your website clone
+    PayloadDirectory←'/MiServer/MiDeploy' ⍝ The Directory of this payload server
+	⍝ Stop Editing here
+
+
+
+    NEWLINE←⎕UCS 13 10
 
     ∇ Render req;html;json;form
       :Access Public
@@ -32,11 +38,11 @@
 					⍝ This means we can easily run commands as other users.
 
 					⍝ Update the local Git Repository as the ServiceUser
-		⎕SH'sudo -u ',ServiceUser,' ./MiDeploy/DeployScripts/gitPull.sh ',GitHubRepository
+		⎕SH 'sudo -u ',ServiceUser,' ',PayloadDirectory,'/DeployScripts/gitPull.sh ',GitHubRepository
 					⍝ Email the user
-		⎕SH'./MiDeploy/DeployScripts/mailUser.sh ',UserEmail,' ',GitHubBranch
+		⎕SH PayloadDirectory,'/DeployScripts/mailUser.sh ',UserEmail,' ',GitHubBranch
 					⍝ Bounce the box, until we can check the service is running without GitHub Timing out.
-		⍝⎕SH'sudo ./MiDeploy/DeployScripts/restartServer.sh' ⍝just reboot the server
+		⍝⎕SH 'sudo ',PayloadDirectory,'/DeployScripts/restartServer.sh' ⍝just reboot the server
 		
          :EndIf
         :Else
