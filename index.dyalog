@@ -12,12 +12,11 @@
       html,←'This page should only be called from Github, if you''re seeing this, sod-off!',CRFL
       html,←'Running on MiServer2.',CRFL
 
-      ret←req.Data[;2]          ⍝ This is the returned Data from Github
-      json←⊃ret
+      ret←⊃req.Data[;2]                 ⍝ This is the returned Data from Github
 
-     :If 0<⍴json                ⍝ Data isn't nothing...
+     :If 0<⍴json                        ⍝ Data isn't nothing...
        #.aa←json                        ⍝ Let me sod about with it in the session
-       GitHubJSON←JSONtoNS json
+       GitHubJSON←JSONtoNS json         ⍝ Currently Broken
      :EndIf
 
       html,←'<br/>TESTING</br>'
