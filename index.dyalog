@@ -4,13 +4,13 @@
     :Include #.HTMLInput
     :Include #.JSON
 
-        CRFL←⎕UCS 13 10
+        CRLF←⎕UCS 13 10
 
     ∇ Render req;html;json;form
       :Access Public
-      html←'Dyalog Deployment Server!',CRFL
-      html,←'This page should only be called from Github, if you''re seeing this, bog-off!',CRFL
-      html,←'Running on MiServer2.',CRFL
+      html←'Dyalog Deployment Server!',CRLF
+      html,←'This page should only be called from Github, if you''re seeing this, bog-off!',CRLF
+      html,←'Running on MiServer2.',CRLF
 
       json←⊃req.Data[;2]                ⍝ This is the returned Data from Github
 
@@ -21,13 +21,13 @@
        :If 'ref' ≡ ⊃GitHubData[2;2]
          :If 'refs/heads/Staging' ≡⊃GitHubData[2;3]
                         ⍝ Something was pushed to "Staging", we want to restart our staging server here
-                html,←'Running Code for Staging',CRFL
+                html,←'Running Code for Staging',CRLF
          :ElseIf 'refs/heads/Live' ≡⊃GitHubData[2;3]
                         ⍝ Something was pushed to "Live", We want to restart our live server here
-                html,←'Running Code for Live',CRFL
+                html,←'Running Code for Live',CRLF
          :EndIf
         :Else
-                html,←'Nothing to do here...',CRFL
+                html,←'Nothing to do here...',CRLF
         :EndIf
       :EndIf
 
