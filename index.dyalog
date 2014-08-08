@@ -9,15 +9,27 @@
     ∇ Render req;html;json;form
       :Access Public
       html←'Dyalog Deployment Server!',CRFL
-      html,←'This page should only be called from Github, if you''re seeing this, sod-off!',CRFL
+      html,←'This page should only be called from Github, if you''re seeing this, bog-off!',CRFL
       html,←'Running on MiServer2.',CRFL
 
-      ret←⊃req.Data[;2]                 ⍝ This is the returned Data from Github
+      json←⊃req.Data[;2]                ⍝ This is the returned Data from Github
 
      :If 0<⍴json                        ⍝ Data isn't nothing...
        #.aa←json                        ⍝ Let me sod about with it in the session
-       GitHubJSON←JSONtoOBJ json         ⍝ Currently Broken
-     :EndIf
+       GitHubData←⎕XML #.JSON.JSONtoXML json ⍝ Convert our json to an APL Array (The long way for now while JSONtoOBJ isn't working)
+
+       :If 'ref' ≡ ⊃GitHubData[2;2]
+         :If 'refs/heads/Staging' ≡⊃GitHubData[2;3]
+                        ⍝ Something was pushed to "Staging", we want to restart our staging server here
+                html,←'Running Code for Staging',CRFL
+         :ElseIf 'refs/heads/Live' ≡⊃GitHubData[2;3]
+                        ⍝ Something was pushed to "Live", We want to restart our live server here
+                html,←'Running Code for Live',CRFL
+         :EndIf
+        :Else
+                html,←'Nothing to do here...',CRFL
+        :EndIf
+      :EndIf
 
       html,←'<br/>TESTING</br>'
       html,←'<form action="index.dyalog" method="post">'
