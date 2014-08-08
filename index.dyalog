@@ -16,7 +16,7 @@
 
      :If 0<⍴json                        ⍝ Data isn't nothing...
        #.aa←json                        ⍝ Let me sod about with it in the session
-       GitHubJSON←JSONtoNS json         ⍝ Currently Broken
+       GitHubJSON←JSONtoOBJ json         ⍝ Currently Broken
      :EndIf
 
       html,←'<br/>TESTING</br>'
