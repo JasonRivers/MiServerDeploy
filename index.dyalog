@@ -18,7 +18,7 @@
        #.aa←json                        ⍝ Let me sod about with it in the session
        GitHubData←⎕XML #.JSON.JSONtoXML json ⍝ Convert our json to an APL Array (The long way for now while JSONtoOBJ isn't working)
 
-       :If 'ref' ≡ ⊃GitHubData[2;2]
+       :If ({⍵⍳⊂'ref'}(,GitHubData))<(⍴(,GitHubData))
          :If 'refs/heads/Staging' ≡⊃GitHubData[2;3]
                         ⍝ Something was pushed to "Staging", we want to restart our staging server here
                 html,←'Running Code for Staging',CRLF
