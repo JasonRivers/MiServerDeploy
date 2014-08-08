@@ -1,0 +1,13 @@
+<!-- CHANGE THESE!-->
+<Users>
+   <User>
+      <ID>user</ID>
+      <Pass>AdminSecret</Pass>
+      <Groups>admin</Groups>
+   </User>
+   <User>
+      <ID>John</ID>
+      <Pass>UserSecret</Pass>
+      <Groups>users</Groups>
+   </User>
+</Users>
