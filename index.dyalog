@@ -5,6 +5,9 @@
     :Include #.JSON
 
     NEWLINE←⎕UCS 13 10
+    ServiceUser←'miserver'		⍝ The user the webServer is running as
+    GitHubBranch←'Staging'		⍝ The Git Hub Branch we want to use
+    GitHubRepository←'/MiServer/MiSite/'
 
     ∇ Render req;html;json;form
       :Access Public
@@ -16,16 +19,25 @@
 
      :If 0<⍴json                        ⍝ Data isn't nothing...
        #.aa←json                        ⍝ Let me sod about with it in the session
-       GitHubData←⎕XML #.JSON.JSONtoXML json ⍝ Convert our json to an APL Array (The long way for now while JSONtoOBJ isn't working)
-	BranchLocation←{⍵[1+⍵⍳⊂'ref']}
+					⍝ Convert our json to an APL Array (The long way for now while JSONtoOBJ isn't working)
+       GitHubData←⎕XML #.JSON.JSONtoXML json 
+       BranchLocation←{⍵[1+⍵⍳⊂'ref']}
+       UserEmail←{⍵[1+⍵⍳⊂'email']}
 
        :If ({⍵⍳⊂'ref'}(,GitHubData))<(⍴(,GitHubData))
-         :If (⊂'refs/heads/Staging') ≡BranchLocation(,GitHubData)
-                        ⍝ Something was pushed to "Staging", we want to restart our staging server here
-                html,←'Running Code for Staging',NEWLINE
-         :ElseIf (⊂'refs/heads/Live') ≡BranchLocation(,GitHubData)
-                        ⍝ Something was pushed to "Live", We want to restart our live server here
-                html,←'Running Code for Live',NEWLINE
+         :If (⊂'refs/heads/',GitHubBranch) ≡ BranchLocation(,GitHubData)
+					⍝ Something was pushed to this server, we want to restart our server here
+                html,←'Running Code for ',GitHubBranch,NEWLINE
+					⍝ We use shell scripts to do the grunt-work,
+					⍝ This means we can easily run commands as other users.
+
+					⍝ Update the local Git Repository as the ServiceUser
+		⎕SH'sudo -u ',ServiceUser,' ./MiDeploy/DeployScripts/gitPull.sh ',GitHubRepository
+					⍝ Email the user
+		⎕SH'./MiDeploy/DeployScripts/mailUser.sh ',UserEmail,' ',GitHubBranch
+					⍝ Bounce the box, until we can check the service is running without GitHub Timing out.
+		⍝⎕SH'sudo ./MiDeploy/DeployScripts/restartServer.sh' ⍝just reboot the server
+		
          :EndIf
         :Else
                 html,←'Nothing to do here...',NEWLINE

@@ -9,6 +9,7 @@ LOG_LOCATION=/tmp/MiDeploy.log ##Default log location
 cd ${GH_LOCATION}
 {
 echo "Received update request `date`"
+echo "updating ${GH_LOCATION}"
 
 git pull
 
