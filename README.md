@@ -1,6 +1,11 @@
 MiServerDeploy
 ==============
 
+#WARNING:
+**This is still under development and some parts may not work correctly.
+All of this system is subject to change at this time.**
+
+
 GitHub deployment server for MiServer
 
 This code runs within MiServer2 (https://github.com/Dyalog/MiServer/tree/MiServer2)
