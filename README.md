@@ -11,7 +11,7 @@ GitHub deployment server for MiServer
 This code runs within MiServer2 (https://github.com/Dyalog/MiServer/tree/MiServer2)
 it will be ported to MiServer3 as soon as it is available.
 
-##get the code
+##Setup the Payload server
 
 Make sure you have the latest version of MiServer2:
 
