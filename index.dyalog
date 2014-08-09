@@ -31,7 +31,7 @@
 					⍝ Convert our json to an APL Array (The long way for now while JSONtoOBJ isn't working)
        GitHubData←⎕XML #.JSON.JSONtoXML json 
 
-       :If ({⍵⍳⊂'ref'}(,GitHubData))<(⍴(,GitHubData))
+       :If ('ref'FindStr(,GitHubData))<(⍴(,GitHubData))
          :If (⊂'refs/heads/',GitHubBranch) ≡ 'ref'GetResult(,GitHubData)
 					⍝ Something was pushed to this server, we want to restart our server here
                 html,←'Running Code for ',GitHubBranch,NEWLINE
@@ -41,7 +41,8 @@
 					⍝ Update the local Git Repository as the ServiceUser
 		⎕SH 'sudo -u ',ServiceUser,' ',PayloadDirectory,'/DeployScripts/gitPull.sh ',GitHubRepository
 					⍝ Email the user
-		⎕SH PayloadDirectory,'/DeployScripts/mailUser.sh ','email'GetResult(,GitHubData),' ',GitHubBranch
+	⍝Getting a domain error on email at the moment, will look later
+⍝		⎕SH PayloadDirectory,'/DeployScripts/mailUser.sh ','email'GetResult(,GitHubData),' ',GitHubBranch
 					⍝ Bounce the box, until we can check the service is running without GitHub Timing out.
 		⍝⎕SH 'sudo ',PayloadDirectory,'/DeployScripts/restartServer.sh' ⍝just reboot the server
 		
