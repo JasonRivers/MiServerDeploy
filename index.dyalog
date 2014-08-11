@@ -66,7 +66,7 @@
             :EndIf
           :Else
                ⍝ Wrong access code given
-				    html←'ACCESS DENIED.',NEWLINE
+            html←'ACCESS DENIED.',NEWLINE
           :EndIf
         :Else
                ⍝ No access code given.
