@@ -64,6 +64,7 @@ Variable | what for
 **GitHubBranch** | The Branch you wish to check for pushes against (Default is Staging)
 **GitHubRepository**  | The disk location of your website clone from Github (EG /MiServer/MiSite)
 **PayloadDirectory**  | The directory that this payload server is in (default /MiServer/MiDeploy)
+**Secret**  | The Access key to use the page (?secret=...)
 
 ### Configure Github Webhooks 
 
